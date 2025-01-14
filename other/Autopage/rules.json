@@ -3472,6 +3472,20 @@
 			"scrollD": 3000
 		}
 	},
+	"WEBTOON漫画": {
+		"host": "www.webtoons.com",
+		"url": "/\\/viewer\\?/",
+		"style": "#_bottomDisplay,#footer{display: none !important;}#content{padding-bottom: 0 !important;}",
+		"pager": {
+			"nextL": ".pg_next._nextEpisode",
+			"pageE": "#_imageList>img",
+			"replaceE": "#toolbar>.paginate,#_bottomEpisodeList"
+		},
+		"function": {
+			"bF": "return fun.src_bF(pageE, [0,'img[data-url]','data-url'])",
+			"aF": "fun.getAllCSS('#_bottomEpisodeList img[data-url][src$=png]').forEach(i=>{i.src=i.dataset.url;});"
+		}
+	},
 	"MYCOMIC": {
 		"host": "mycomic.com",
 		"url": "/^\\/chapters\\/\\d+/",
@@ -5770,6 +5784,16 @@
 		},
 		"function": {
 			"bF": "return fun.src_bF(pageE,[0,'img[img]','img'])"
+		}
+	},
+	"tokyomotion": {
+		"host": "www.tokyomotion.net",
+		"url": "return fun.isPager()",
+		"blank": 3,
+		"pager": {
+			"nextL": ".prevnext",
+			"pageE": "(//div[@class='row']/div[@class='col-sm-12']/div[@class='row'])[last()]/div",
+			"replaceE": ".pagination"
 		}
 	},
 	"porn78.info": {
