@@ -3,7 +3,7 @@
 // @name:zh-CN   自动无缝翻页
 // @name:zh-TW   自動無縫翻頁
 // @name:en      AutoPager
-// @version      6.6.48
+// @version      6.6.49
 // @author       X.I.U
 // @description  ⭐无缝加载 下一页内容 至网页底部（类似瀑布流，无限滚动，无需手动点击下一页）⭐，目前支持：【所有「Discuz!、Flarum、phpBB、MyBB、Xiuno、XenForo、NexusPHP...」论坛】【百度、谷歌(Google)、必应(Bing)、搜狗、微信、360、Yahoo、Yandex 等搜索引擎...】、贴吧、豆瓣、知乎、NGA、V2EX、起点中文、千图网、千库网、Pixabay、Pixiv、3DM、游侠网、游民星空、NexusMods、Steam 创意工坊、CS.RIN.RU、RuTracker、BT之家、萌番组、动漫花园、樱花动漫、爱恋动漫、AGE 动漫、Nyaa、SrkBT、RARBG、SubHD、423Down、不死鸟、扩展迷、小众软件、【动漫狂、动漫屋、漫画猫、漫画屋、漫画 DB、HiComic、Mangabz、Xmanhua 等漫画网站...】、PubMed、Z-Library、GreasyFork、Github、StackOverflow（以上仅一小部分常见网站，更多的写不下了...
 // @description:zh-TW  ⭐無縫加載 下一頁內容 至網頁底部（類似瀑布流，无限滚动，無需手働點擊下一頁）⭐，支持各論壇、社交、遊戲、漫畫、小說、學術、搜索引擎(Google、Bing、Yahoo...) 等網站~
@@ -506,7 +506,7 @@ pager: {
            isHidden:    只有下一页按钮可见时（没有被隐藏），才会点击
 
        3 = 依靠 [基准元素] 与 [浏览器可视区域底部] 之间的距离缩小来触发翻页（适用于：主体元素下方内容太多 且 高度不固定时）
-           scrollE:     作为基准线的元素（一般为底部页码元素），和 replaceE 一样的话可以省略
+           scrollE:     作为基准线的元素（一般为底部页码元素），省略后默认等同 replaceE（如果这个也未指定则改用 nextL）
            scrollD:     当 [基准元素] 与 [可视区域底部] 之间的距离 等于或小于该值时，将触发翻页，省略后默认 2000
 
        4 = 动态加载类网站（适用于：简单的动态加载内容网站）
@@ -1608,7 +1608,13 @@ function: {
                 scrollD = curSite.pager.scrollD;
             // <<<<< 翻页类型 3（依靠 [基准元素] 与 [浏览器可视区域底部] 之间的距离缩小来触发翻页）>>>>>
             if (curSite.pager.type === 3) {
-                if (!curSite.pager.scrollE) curSite.pager.scrollE = curSite.pager.replaceE; // 默认基准元素是页码
+                if (!curSite.pager.scrollE) { // 当 scrollE 未指定时
+                    if(curSite.pager.replaceE) { // 如果指定了 replaceE，则默认 scrollE 为 replaceE
+                        curSite.pager.scrollE = curSite.pager.replaceE;
+                    } else { // 如果 replaceE 也未指定，则默认 scrollE 为 nextL
+                        curSite.pager.scrollE = curSite.pager.nextL;
+                    }
+                }
                 let scrollE = getOne(curSite.pager.scrollE);
                 //console.log(scrollE.offsetTop, scrollE.offsetTop - (scrollTop + scrollHeight), scrollD, scrollTop + scrollHeight, curSite.SiteTypeID)
                 if (scrollE.offsetTop - (scrollTop + scrollHeight) <= scrollD) {intervalPause(); checkURL(getPageE);}
@@ -2703,17 +2709,20 @@ function: {
         //for (var i = 0; i < b.length; i++) {console.log(b[i][0], b[i][1].host);}
         // 点击事件
         getCSS('#Autopage_customRules_save', shadowRoot).onclick = function () {
-            customRules = getCSS('#Autopage_customRules_textarea', shadowRoot).value;
-            //console.log(customRules)
+            let customRules_textarea = getCSS('#Autopage_customRules_textarea', shadowRoot)
+            customRules = customRules_textarea.value;
             if (!customRules) customRules = '{}'
             try {
                 customRules = JSON.parse(customRules)
-                //console.log(customRules)
                 GM_setValue('menu_customRules', customRules)
                 location.reload();
             } catch (e) {
-                console.error('自定义规则存在格式错误：\n' + e + '\n\n格式错误一般为：\n· 逗号：每组 {} 中的最后一个值末尾不能加逗号\n\n· 转义：如果正则表达式中含有转义符 \\ 那就要对其再次转义为 \\\\\n\n· 双引号：规则中冒号左右的内容都需要加上双引号，如果内容中含有双引号则需要对双引号转义（即 \\" 这样），或改为单引号')
-                window.alert('自定义规则存在格式错误：\n' + e + '\n\n格式错误一般为：\n· 逗号：每组 {} 中的最后一个值末尾不能加逗号\n\n· 转义：如果正则表达式中含有转义符 \\ 那就要对其再次转义为 \\\\\n\n· 双引号：规则中冒号左右的内容都需要加上双引号，如果内容中含有双引号则需要对双引号转义（即 \\" 这样），或改为单引号');
+                const match = e.message.match(/at position (\d+)/),position = parseInt(match[1]);
+                console.error('自定义规则存在格式错误：\n' + e.message + '\n错误位置为该区域中间：\n------\n' + customRules.slice((position<30)?0:position-30,position+29) + '\n------\n\n常见格式错误：\n1. 逗号：每组 { } 中的最后一个值末尾不能加逗号\n2. 转义：如果正则表达式中含有转义符 \\ 那就要对其再次转义为 \\\\\n3. 引号：规则中冒号左右的内容都需要加上双引号，如果内容中含有双引号则需要对双引号转义（即 \\" 这样），或改为单引号')
+                window.alert('自定义规则存在格式错误：\n' + e.message + '\n错误位置为该区域中间：\n------\n' + customRules.slice((position<30)?0:position-30,position+29) + '\n------\n点击【确定】后脚本会为你定位并选中编辑框中格式错误的文本（部分格式错误定位可能不太精确，但错误一定是在选中文本的附近，如果是选中了行首的空格，则说明格式错误来自上一行末尾逗号）\n\n常见格式错误：\n1. 逗号：每组 { } 中的最后一个值末尾不能加逗号\n2. 转义：如果正则表达式中含有转义符 \\ 那就要对其再次转义为 \\\\\n3. 引号：规则中冒号左右的内容都需要加上双引号，如果内容中含有双引号则需要对双引号转义（即 \\" 这样），或改为单引号');
+                customRules_textarea.selectionStart = position-1; // 选中开始位置
+                customRules_textarea.selectionEnd = position; // 选中结束位置
+                customRules_textarea.focus(); // 将焦点移动到 customRules_textarea
             }
         }
         getCSS('#Autopage_customRules_cancel', shadowRoot).onclick = function () {document.documentElement.style.overflow = document.body.style.overflow = ''; getCSS('#Autopage_customRules').remove();}

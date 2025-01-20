@@ -6224,10 +6224,11 @@
 		}
 	},
 	"ACG漫画网": {
-		"host": "/^(www\\.)?acgmh[a-z]\\.com$/",
+		"host": ["www.acgxmh.com","www.porn-comic.com","www.hentai-acg.com","/^(www\\.)?acgmh[a-z]\\.com$/"],
 		"url": "return fun.isPager()",
 		"style": ".pre_picture,.next_picture",
 		"pager": {
+			"type": 3,
 			"nextL": ".page>span+a:not(.a1)",
 			"pageE": ".manga-picture>picture,.manga-picture>img,#list>li",
 			"replaceE": ".page"
@@ -6845,6 +6846,16 @@
 			"pageE": "#content img,#dlNews>tbody>tr,.summary",
 			"replaceE": ".pager",
 			"scrollD": 3500
+		}
+	},
+	"missbby.com": {
+		"host": "missbby.com",
+		"url": "return fun.isPager()",
+		"blank": 3,
+		"pager": {
+			"type": 3,
+			"nextL": ".justify-center.items-center+div>a.bg-pink-500+a, .flex.space-x-2>a.hover\\:bg-pink-500",
+			"pageE": "//div[@class='md:px-16 xl:px-20 max-w-3xl mx-auto justify-center items-center flex flex-col min-h-screen']/div | (//div[@class='mx-auto max-w-7xl px-4' or @id='S:0']//div[@class='grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-4 xl:grid-cols-4'])[last()]/div"
 		}
 	},
 	"遛无写真": {
