@@ -5195,6 +5195,16 @@
 			"replaceE": ".cut-page"
 		}
 	},
+	"kmoe": {
+		"host": ["mox.moe","kox.moe","kxo.moe","koz.moe"],
+		"url": "return fun.isPager()",
+		"blank": 3,
+		"pager": {
+			"nextL": "//button[@name='link_page']/b/../../following-sibling::a[1]",
+			"pageE": "tr.listbg",
+			"replaceE": "tr[style='vertical-align:top']:first-child"
+		}
+	},
 	"摩点众筹": {
 		"host": "zhongchou.modian.com",
 		"url": "return (fun.getCSS('.page')&&fun.getCSS('.pro_ul>li'))",
@@ -6718,6 +6728,16 @@
 			"nextL": "a.current+a",
 			"pageE": ".content_left>p,.update_area ul.update_area_lists>li",
 			"replaceE": ".page"
+		}
+	},
+	"xiurentu.pics": {
+		"host": "xiurentu.pics",
+		"url": "return fun.isPager()",
+		"pager": {
+			"type": 3,
+			"nextL": "a[rel=next]",
+			"pageE": "img.block.my-1,#main>.grid.gap-3.grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4>div",
+			"replaceE": "nav[role=navigation]"
 		}
 	},
 	"美人图": {
