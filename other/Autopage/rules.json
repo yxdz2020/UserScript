@@ -1927,6 +1927,15 @@
 			"replaceE": ".pagination"
 		}
 	},
+	"机游网": {
+		"host": "pcgamexiazai.com",
+		"url": "/^\\/games/",
+		"pager": {
+			"nextL": "li.active+li>a",
+			"pageE": ".game-box>li",
+			"replaceE": ".pagination"
+		}
+	},
 	"modland": {
 		"host": "www.modland.net",
 		"url": "return fun.isPager()",
@@ -7037,6 +7046,16 @@
 			"nextL": ".pages>span +a:not(.a1)",
 			"pageE": ".pictures>img,.pic-list>ul",
 			"replaceE": ".pages"
+		}
+	},
+	"黑料网": {
+		"host": ["18hlw.com","www.hlwxx.com","/.*/"],
+		"url": "return (!fun.indexOF('/archives/') && fun.isTitle('黑料网') && fun.isPager())",
+		"style": ".video-item {height: auto !important;} #notice_container, .infomation{display: none !important;}",
+		"blank": 3,
+		"pager": {
+			"nextL": "a.next",
+			"pageE": ".video-item"
 		}
 	},
 	"子夜动漫/七味网 类通用规则": {
