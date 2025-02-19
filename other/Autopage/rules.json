@@ -6346,8 +6346,8 @@
 		}
 	},
 	"nhentai": {
-		"host": ["nhentai.net","nhentai.to","nhentai.xxx"],
-		"url": "if (fun.indexOF(/^\\/g\\/\\d+\\/\\d+\\//)){const imageA = document.querySelector('#image-container>a'); imageA.outerHTML=imageA.innerHTML;return true;} else if (fun.getCSS('a.next') && fun.getCSS('.gallery')){return true;}",
+		"host": ["nhentai.net","nhentai.to","web.zorocdn.xyz"],
+		"url": "if (fun.indexOF(/^\\/g\\/\\d+\\/\\d+\\//)){const imageA = document.querySelector('#image-container>a'); imageA.outerHTML=imageA.innerHTML;return true;} else {return (fun.getCSS('a.next') && fun.getCSS('.gallery'));}",
 		"style": "section#image-container img {max-width: 100% !important;height: auto !important;display: block !important;margin: 0 auto !important;}",
 		"blank": 3,
 		"pager": {
@@ -6357,6 +6357,32 @@
 		},
 		"function": {
 			"bF": "if (fun.getCSS('.container>.gallery') && typeof _n_app !== 'undefined' && _n_app.options.blacklisted_tags != null && _n_app.options.blacklisted_tags.length != 0) {pageE.forEach(function (one) {let tags = one.dataset.tags.split(' ');for (let i=0; i < tags.length; i++){for (let ii=0; ii < _n_app.options.blacklisted_tags.length; ii++){if (tags[i] == _n_app.options.blacklisted_tags[ii]) {one.classList.add('blacklisted');};};};});}; return fun.src_bF(pageE)"
+		}
+	},
+	"nhentai.xxx": {
+		"host": "nhentai.xxx",
+		"url": "return fun.isPager()",
+		"blank": 3,
+		"pager": {
+			"nextL": "li.active+li:not(.disabled)>a",
+			"pageE": ".gallery_item",
+			"replaceE": ".pagination"
+		},
+		"function": {
+			"bF": "return fun.src_bF(pageE)"
+		}
+	},
+	"nhentai.xxx - g": {
+		"host": "nhentai.xxx",
+		"url": "if(fun.indexOF(/^\\/g\\/\\d+\\/\\d+\\//)){const imageA = fun.getCSS('.fw_img');imageA.outerHTML=imageA.innerHTML;return true;}",
+		"style": ".pg_prv,.pg_nxt",
+		"pager": {
+			"nextL": "js;return fun.getNextUPN(/^\\/g\\/\\d+\\/(\\d+)\\//,/\\/(\\d+)\\/$/,'/','/','2',fun.getCSS('.tp').textContent)",
+			"pageE": "#fimg",
+			"replaceE": ".reader_nav"
+		},
+		"function": {
+			"bF": "return fun.src_bF(pageE)"
 		}
 	},
 	"HentaiFox": {
