@@ -5814,6 +5814,16 @@
 			"bF": "return fun.src_bF(pageE)"
 		}
 	},
+	"av6k.org": {
+		"host": "/^([0-9a-z-]+\\.)?av6k([0-9a-z]+)?\\.[a-z]+$/",
+		"url": "fun.insStyle('.clickadu,.clickadulist,#footer,.links,.links-top,.links-top2,.links-top3,a[href^=\\'http://\\'],.footlink,body>div[id][style],#shareQrcode');if(fun.isTitle('AV6K') && fun.lp() !== '/' && fun.getAllCSS('.pages_c').length === 2)return fun.isPager()",
+		"blank": 3,
+		"pager": {
+			"nextL": ".thisclass+li>a",
+			"pageE": ".listA",
+			"replaceE": ".pages_c"
+		}
+	},
 	"JavDB": {
 		"host": "/^javdb/",
 		"url": "return (fun.isTitle('JavDB') && !fun.indexOF('/v/') && fun.isPager('r'))",
