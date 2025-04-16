@@ -2152,6 +2152,16 @@
 			"replaceE": ".bottom-page"
 		}
 	},
+	"byrutgame": {
+		"host": "byrutgame.org",
+		"url": "if(fun.getCSS('.show_more')){rule.pager.type=2;rule.pager.nextL='.active .show_more:not(.disabled)';return true;}else{return fun.isPager();}",
+		"blank": 3,
+		"pager": {
+			"nextL": ".page_next>a",
+			"pageE": ".short_item",
+			"replaceE": ".navigation"
+		}
+	},
 	"steamrip": {
 		"host": "steamrip.com",
 		"url": "return fun.isPager()",
@@ -7233,6 +7243,16 @@
 			"nextL": ".pagelist>span+a",
 			"pageE": "#post_content>p",
 			"replaceE": ".pagelist"
+		}
+	},
+	"4khd.com": {
+		"host": ["4khd.com","yrsdu.xxtt.ink"],
+		"url": "/^\\/content\\//",
+		"pager": {
+			"type": 3,
+			"nextL": ".numpages.current+li>a",
+			"pageE": "#basicExample>a",
+			"replaceE": ".page-links"
 		}
 	},
 	"俊美图": {
