@@ -1,42 +1,62 @@
-name: Upstream Sync
-
-permissions:
-  contents: write
+name: RepoSync
 
 on:
   schedule:
-    - cron: "0 0 * * *" # every day
-  workflow_dispatch:
-  watch:
-    types: started
+    - cron: "0 0 * * 1"  # 每周一 0 点运行
+  workflow_dispatch:  # 手动触发工作流
 
 jobs:
   sync_latest_from_upstream:
-    name: Sync latest commits from upstream repo
+    name: 自动同步上游仓库
     runs-on: ubuntu-latest
-    if: ${{ github.event.repository.fork }}
+    if: ${{ github.event.repository.fork }}  # 仅在 fork 仓库中运行
+    env:
+      UPSTREAM_REPO: XIU2/UserScript  # 在这里定义上游仓库，格式为“用户名/仓库名”
+      UPSTREAM_REPO_BRANCH: master  # 定义上游仓库的分支
+      TARGET_REPO_BRANCH: master  # 定义目标仓库的分支
 
     steps:
-      # Step 1: run a standard checkout action
-      - name: Checkout target repo
-        uses: actions/checkout@v3
+      # 检出当前仓库代码
+      - uses: actions/checkout@v4
 
-      # Step 2: run the sync action
+      # 同步上游仓库的更改
       - name: Sync upstream changes
         id: sync
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+        uses: yxdz2020/Fork-Sync-With-Upstream-action@v20250122
         with:
-          upstream_sync_repo: XIU2/UserScript
-          upstream_sync_branch: master
-          target_sync_branch: master
-          target_repo_token: ${{ secrets.GITHUB_TOKEN }} # automatically generated, no need to set
+          upstream_sync_repo: ${{ env.UPSTREAM_REPO }} # 使用定义的上游仓库
+          upstream_sync_branch: ${{ env.UPSTREAM_REPO_BRANCH }} # 使用定义的上游分支
+          target_sync_branch: ${{ env.TARGET_REPO_BRANCH }} # 使用定义的目标分支
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }} # 自动生成，无需设置
+          test_mode: false # 关闭测试模式，实际执行同步操作
+        continue-on-error: true # 即使同步失败，继续执行后续步骤
 
-          # Set test_mode true to run tests instead of the true action!!
-          test_mode: false
-
-      - name: Sync check
-        if: failure()
+      # 输出同步结果
+      - name: 输出同步结果
         run: |
-          echo "[Error] 由于上游仓库的 workflow 文件变更，导致 GitHub 自动暂停了本次自动更新，你需要手动 Sync Fork 一次."
-          echo "[Error] Due to a change in the workflow file of the upstream repository, GitHub has automatically suspended the scheduled automatic update. You need to manually sync your fork."
-          exit 1
+          if [ "${{ steps.sync.outputs.changes_pushed }}" = "true" ]; then
+            echo "✅ 同步成功：上游仓库的最新更改已同步到目标仓库。"
+          elif [ "${{ steps.sync.outputs.changes_pushed }}" = "false" ]; then
+            echo "⚠️ 无需同步：没有检测到需要同步的更改。"
+          else
+            echo "❌ 同步失败：${{ steps.sync.outputs.error_message:-同步过程中出现了问题。}}"
+          fi
+
+      - name: 🎉 Delete old workflow run
+        uses: yxdz2020/delete-workflow-runs@v20250101
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 50
+
+      - name: 🚗 Keep Running
+        if: github.event_name == 'schedule'
+        run: |
+          git config --local user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          git config --local user.name "${{ github.actor }}"
+          git remote set-url origin https://${{ github.actor }}:${{ github.token }}@github.com/${{ github.repository }}
+          git pull --rebase --autostash
+          git commit --allow-empty -m "Keep Running..."
+          git push
+          
