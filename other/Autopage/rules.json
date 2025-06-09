@@ -342,16 +342,17 @@
 			"replaceE": "#paginator"
 		}
 	},
-	"豆瓣 - top250/分集短评/剧评影评/在看/想看/看过/作品/图片": {
-		"host": ["movie.douban.com","music.douban.com","book.douban.com"],
-		"url": "return (fun.lp() == '/top250' || fun.indexOF(/^\\/subject\\/\\d+\\/(episode|tv_discuss|reviews|photos)/) || fun.indexOF(/^\\/people\\/.+\\/(do|wish|collect)/) || fun.indexOF(/^\\/celebrity\\/\\d+\\/(movies|photos)/))",
-		"pager": {
-			"nextL": "link[rel='next']",
-			"pageE": ".grid_view,#comments,.review-list,.interest-list,.grid-view,.grid_view>ul>li,.poster-col3>li",
-			"replaceE": ".paginator",
-			"scrollD": 2500
-		}
-	},
+    "豆瓣 - top250/分集短评/剧评影评/在看/想看/看过/作品/图片": {
+        "host": ["movie.douban.com","music.douban.com","book.douban.com"],
+        "url": "return (fun.lp() == '/top250' || fun.indexOF(/^\\/subject\\/\\d+\\/(episode|tv_discuss|reviews|photos)/) || fun.indexOF(/^\\/people\\/.+\\/(do|wish|collect)/) || fun.indexOF(/^\\/celebrity\\/\\d+\\/(movies|photos)/))",
+        "blank": 5,
+        "pager": {
+            "nextL": "link[rel='next']",
+            "pageE": ".grid_view,.article>.indent>p.ul,.article>.indent>table,#comments,.review-list,.interest-list,.grid-view,.grid_view>ul>li,.poster-col3>li",
+            "replaceE": ".paginator",
+            "scrollD": 2500
+        }
+    },
 	"豆瓣 - 广播/日记/书评/影评评论": {
 		"host": ["www.douban.com","book.douban.com","movie.douban.com"],
 		"url": "return ((fun.indexOF(/^\\/people\\/.+\\/status/) && (!fun.indexOF('tab=','s') || fun.indexOF('tab=comment','s'))) || (fun.indexOF(/^\\/note\\/\\d+\\//) && !fun.indexOF('type=','s')) || fun.indexOF(/^\\/review\\/\\d+\\//))",
@@ -890,6 +891,15 @@
 			"nextL": ".pagination a.next",
 			"pageE": ".viewthread",
 			"replaceE": ".pagination"
+		}
+	},
+		"CPC中文印刷社区": {
+		"host": "www.cnprint.org",
+		"url": "if(fun.indexOF(/^\\/bbs\\/forumdisplay\\.php/)){rule.blank=3;return true;}else if(fun.indexOF(/^\\/bbs\\/showthread\\.php/)){return true;}",
+		"pager": {
+			"nextL": "a[rel=next]",
+			"pageE": "tbody[id^=threadbits_forum_]>tr, #posts>div[align]",
+			"replaceE": ".pagenav"
 		}
 	},
 	"TGFC Lifestyle": {
@@ -4841,7 +4851,7 @@
 		"host": "github.com",
 		"url": "return fun.indexOF(/\\/issues$/)",
 		"style": "[class*='IssueItem-module__ListItem_'] div[class*=LoadingSkeleton]",
-		"blank": 4,
+		"blank": 6,
 		"pager": {
 			"nextL": "js; return fun.getNextUP('page=',/page=\\d+/,fun.lp(),'2',fun.getXpath('//a[@rel=\\'next\\'][not(@aria-disabled)]/preceding-sibling::a[1][not(@aria-current)]').textContent)",
 			"pageE": "div[class^='IssueRow-module_']",
@@ -6710,7 +6720,7 @@
 		}
 	},
 	"绅士漫画": {
-		"host": ["/^(www\\.)?(wnacg|htcomic)\\.[a-z]+$/","/^(www\\.)?(qy|wn)\\d+\\.[a-z]+$/"],
+		"host": ["/^(www\\.)?(wnacg|htcomic)(\\d+)?\\.[a-z]+$/","/^(www\\.)?(qy|wn)\\d+\\.[a-z]+$/"],
 		"url": "/^\\/(albums|search|photos-index)/",
 		"style": "a.btn[href^='/photos-slide-']{color:#fff !important;background:#ff604a !important;font-weight:bold !important;font-size:22px !important;letter-spacing:10px !important;width:210px !important;height:30px !important;}",
 		"blank": 3,
@@ -6721,7 +6731,7 @@
 		}
 	},
 	"绅士漫画 - 阅读页(非下拉阅读)": {
-		"host": ["/^(www\\.)?(wnacg|htcomic)\\.[a-z]+$/","/^(www\\.)?(qy|wn)\\d+\\.[a-z]+$/"],
+		"host": ["/^(www\\.)?(wnacg|htcomic)(\\d+)?\\.[a-z]+$/","/^(www\\.)?(qy|wn)\\d+\\.[a-z]+$/"],
 		"url": "if(fun.indexOF(/^\\/photos-view-id-\\d+\\.html/) || fun.indexOF('?ctl=photos&act=view&id=','s')){const img=fun.getCSS('#picarea');img.parentElement.outerHTML=img.outerHTML;return true;}",
 		"style": "#tuzaoblock,#bodywrap,.tocaowrap",
 		"pager": {
