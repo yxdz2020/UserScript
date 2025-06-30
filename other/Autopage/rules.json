@@ -2061,7 +2061,7 @@
 		}
 	},
 	"koyso": {
-		"host": "koyso.com",
+		"host": "koyso.to",
 		"url": "return fun.isPager()",
 		"style": ".skeleton",
 		"blank": 4,
@@ -4866,6 +4866,15 @@
 			"replaceE": ".pagination"
 		}
 	},
+	"Github - Issue/Discussions/Pull - loadmore": {
+		"host": "github.com",
+		"url": "return fun.indexOF(/\\/(issues|discussions|pull)\\/\\d+$/)",
+		"pager": {
+			"type": 2,
+			"nextL": "button[data-testid=issue-timeline-load-more-load-top][aria-disabled=false], button.ajax-pagination-btn[data-disable-with=Loading…]:not([disabled])",
+			"scrollD": 9999
+		}
+	},
 	"Github - Issues": {
 		"host": "github.com",
 		"url": "return fun.indexOF(/\\/issues$/)",
@@ -5983,12 +5992,12 @@
 	},
 	"Netflav": {
 		"host": "netflav.com",
-		"url": "return (fun.lp() != '/' && !fun.indexOF(/^\\/(video|actress|browse|genre)$/))",
+		"url": "fun.isUrlC(); return (fun.lp() != '/' && !fun.indexOF(/^\\/(video|actress|browse|genre)$/))",
 		"blank": 3,
 		"pager": {
 			"type": 6,
 			"nextL": "js; return fun.getNextEP('a.active.item+a.item:not(.icon)','page=',/page=\\d+/)",
-			"pageE": ".grid_cell",
+			"pageE": ".grid_0_cell",
 			"replaceE": ".pagination",
 			"loadTime": 1200,
 			"scrollD": 3000
@@ -6158,6 +6167,16 @@
 			"nextL": "a.active+a",
 			"pageE": ".list_box>ul:nth-of-type(2)~ul",
 			"replaceE": ".pages"
+		}
+	},
+	"caribbeancom": {
+		"host": ["www.caribbeancom.com","en.caribbeancom.com"],
+		"url": "return (fun.isPager()|fun.indexOF(/\\/(listpages|search)\\//))",
+		"blank": 3,
+		"pager": {
+			"nextL": "a[rel=next]",
+			"pageE": ".list>.flex-grid>.grid-item, .grid.is-movie>.entry",
+			"replaceE": ".pagination"
 		}
 	},
 	"16k.club": {

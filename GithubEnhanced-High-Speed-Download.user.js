@@ -3,7 +3,7 @@
 // @name:zh-CN   Github 增强 - 高速下载
 // @name:zh-TW   Github 增強 - 高速下載
 // @name:ru      Улучшение GitHub – быстрое скачивание
-// @version      2.6.22
+// @version      2.6.24
 // @author       X.I.U
 // @description  High-speed download of Git Clone/SSH, Release, Raw, Code(ZIP) and other files (Based on public welfare), project list file quick download (☁)
 // @description:zh-CN  高速下载 Git Clone/SSH、Release、Raw、Code(ZIP) 等文件 (公益加速)、项目列表单文件快捷下载 (☁)
@@ -34,7 +34,7 @@
 
 (function() {
     'use strict';
-    var menu_rawFast = GM_getValue('xiu2_menu_raw_fast'), menu_rawFast_ID, menu_rawDownLink_ID, menu_gitClone_ID, menu_feedBack_ID;
+    var menu_rawFast = GM_getValue('xiu2_menu_raw_fast'), menu_rawFast_ID, menu_rawDownLink_ID, menu_gitClone_ID, menu_customUrl_ID, menu_feedBack_ID;
     const download_url_us = [
         ['https://gh.h233.eu.org/https://github.com', '美国', '[美国 Cloudflare CDN] - 该公益加速源由 [@X.I.U/XIU2] 提供'],
         //['https://gh.api.99988866.xyz/https://github.com', '美国', '[美国 Cloudflare CDN] - 该公益加速源由 [hunshcn/gh-proxy] 提供'], // 官方演示站用的人太多了
@@ -184,16 +184,36 @@
     if (menu_rawFast == null){menu_rawFast = 1; GM_setValue('xiu2_menu_raw_fast', 1)};
     if (GM_getValue('menu_rawDownLink') == null){GM_setValue('menu_rawDownLink', true)};
     if (GM_getValue('menu_gitClone') == null){GM_setValue('menu_gitClone', true)};
+    // 如果自定义加速源不存在或为空则忽略，如果自定义加速源地址存在，则添加到 raw_url、clone_url 数组中
+    if (GM_getValue('custom_raw_url')) {raw_url.splice(1, 0, [GM_getValue('custom_raw_url'), '自定义', '[由你自定义的 Raw 加速源]&#10;&#10;提示：点击浏览器右上角 Tampermonkey 扩展图标 - [ #️⃣ 自定义加速源 ]&#10;即可轮流设置 Raw、Git Clone、Release/Code(ZIP) 的自定义加速源地址（留空代表不设置）。'])};
+    if (GM_getValue('custom_clone_url')) {clone_url.unshift([GM_getValue('custom_clone_url'), '自定义', '[由你自定义的 Git Clone 加速源]&#10;&#10;提示：点击浏览器右上角 Tampermonkey 扩展图标 - [ #️⃣ 自定义加速源 ]&#10;即可轮流设置 Raw、Git Clone、Release/Code(ZIP) 的自定义加速源地址（留空代表不设置）。'])};
     registerMenuCommand();
     // 注册脚本菜单
     function registerMenuCommand() {
         // 如果反馈菜单ID不是 null，则删除所有脚本菜单
-        if (menu_feedBack_ID) {GM_unregisterMenuCommand(menu_rawFast_ID); GM_unregisterMenuCommand(menu_rawDownLink_ID); GM_unregisterMenuCommand(menu_gitClone_ID); GM_unregisterMenuCommand(menu_feedBack_ID); menu_rawFast = GM_getValue('xiu2_menu_raw_fast');}
+        if (menu_feedBack_ID) {GM_unregisterMenuCommand(menu_rawFast_ID); GM_unregisterMenuCommand(menu_rawDownLink_ID); GM_unregisterMenuCommand(menu_gitClone_ID); GM_unregisterMenuCommand(menu_customUrl_ID); GM_unregisterMenuCommand(menu_feedBack_ID); menu_rawFast = GM_getValue('xiu2_menu_raw_fast');}
         // 避免在减少 raw 数组后，用户储存的数据大于数组而报错
         if (menu_rawFast > raw_url.length - 1) menu_rawFast = 0
         if (GM_getValue('menu_rawDownLink')) menu_rawFast_ID = GM_registerMenuCommand(`${['0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'][menu_rawFast]} [ ${raw_url[menu_rawFast][1]} ] 加速源 (☁) - 点击切换`, menu_toggle_raw_fast);
         menu_rawDownLink_ID = GM_registerMenuCommand(`${GM_getValue('menu_rawDownLink')?'✅':'❌'} 项目列表单文件快捷下载 (☁)`, function(){if (GM_getValue('menu_rawDownLink') == true) {GM_setValue('menu_rawDownLink', false); GM_notification({text: `已关闭 [项目列表单文件快捷下载 (☁)] 功能\n（点击刷新网页后生效）`, timeout: 3500, onclick: function(){location.reload();}});} else {GM_setValue('menu_rawDownLink', true); GM_notification({text: `已开启 [项目列表单文件快捷下载 (☁)] 功能\n（点击刷新网页后生效）`, timeout: 3500, onclick: function(){location.reload();}});}registerMenuCommand();});
         menu_gitClone_ID = GM_registerMenuCommand(`${GM_getValue('menu_gitClone')?'✅':'❌'} 添加 git clone 命令`, function(){if (GM_getValue('menu_gitClone') == true) {GM_setValue('menu_gitClone', false); GM_notification({text: `已关闭 [添加 git clone 命令] 功能\n（点击刷新网页后生效）`, timeout: 3500, onclick: function(){location.reload();}});} else {GM_setValue('menu_gitClone', true); GM_notification({text: `已开启 [添加 git clone 命令] 功能\n（点击刷新网页后生效）`, timeout: 3500, onclick: function(){location.reload();}});}registerMenuCommand();});
+        menu_customUrl_ID = GM_registerMenuCommand(`#️⃣ 自定义加速源`, function () {
+            // 定义三种自定义加速源的键名和描述
+            const customKeys = [
+                { key: 'custom_raw_url', desc: 'Raw 加速源', placeholder: 'https://example.com/https://raw.githubusercontent.com' },
+                { key: 'custom_clone_url', desc: 'Git Clone 加速源', placeholder: 'https://example.com/https://github.com' },
+                { key: 'custom_download_url', desc: 'Release/Code(ZIP) 加速源', placeholder: 'https://example.com/https://github.com' }
+            ];
+            // 递归弹出输入框
+            function promptCustomUrl(index = 0) {
+                if (index >= customKeys.length) {GM_notification({ text: '自定义加速源设置已完成！\n（点击刷新网页后生效）', timeout: 3500, onclick: function () { location.reload(); } });return;}
+                const { key, desc, placeholder } = customKeys[index];
+                let current = GM_getValue(key, '');
+                let input = prompt(`请输入自定义${desc}地址：\n- 当前：\n${current || '(未设置)'}\n\n- 示例：\n${placeholder}\n\n- 留空为不设置\n- 点击 [确定] 保存 并 继续设置下一个\n- 点击 [取消] 不保存 并 终止后续设置`,current);
+                if (input !== null) {GM_setValue(key, input.trim());promptCustomUrl(index + 1);}// 如果用户点击 取消 按钮，则不再继续弹出
+            }
+            promptCustomUrl();
+        });
         menu_feedBack_ID = GM_registerMenuCommand('💬 反馈 & 建议 [Github]', function () {window.GM_openInTab('https://github.com/XIU2/UserScript', {active: true,insert: true,setParent: true});window.GM_openInTab('https://greasyfork.org/zh-CN/scripts/412245/feedback', {active: true,insert: true,setParent: true});});
     }
 
@@ -260,9 +280,13 @@
     // download_url 随机几个美国加速源
     function get_New_download_url() {
         //return download_url_us // 全输出调试用
-        let shuffled = download_url_us.slice(0), i = download_url_us.length, min = i - 6, temp, index;
+        let minnum = 6; // 随机输出几个美国加速源
+        if (GM_getValue('custom_download_url')) {minnum = 5;} // 如果有自定义加速源，则只随机输出 5 个美国加速源
+        let shuffled = download_url_us.slice(0), i = download_url_us.length, min = i - minnum, temp, index;
         while (i-- > min) {index = Math.floor((i + 1) * Math.random()); temp = shuffled[index]; shuffled[index] = shuffled[i]; shuffled[i] = temp;}
-        return shuffled.slice(min)//.concat(download_url); // 随机洗牌 download_url_us 数组并取前几个，然后将其合并至 download_url 数组
+        // 如果有自定义加速源，则将其添加到随机数组的开头
+        if (GM_getValue('custom_download_url')) {return [[GM_getValue('custom_download_url'), '自定义', '[由你自定义的 Release/Code(ZIP) 加速源地址]&#10;&#10;提示：点击浏览器右上角 Tampermonkey 扩展图标 - [ #️⃣ 自定义加速源 ]&#10;即可轮流设置 Raw、Git Clone、Release/Code(ZIP) 的自定义加速源地址（留空代表不设置）。']].concat(shuffled.slice(min));}
+        return shuffled.slice(min) // 随机洗牌 download_url_us 数组并取前几个，然后将其合并至 download_url 数组
         // 为了缓解非美国公益节点压力（考虑到很多人无视前面随机的美国节点），干脆也将其加入随机
     }
 
@@ -283,7 +307,7 @@
                     } else {
                         url = new_download_url[i][0] + href[1]
                     }
-                    _html += `<a style="${style[0]}" class="btn" href="${url}" title="${new_download_url[i][2]}" rel="noreferrer noopener nofollow">${new_download_url[i][1]}</a>`
+                    _html += `<a style="${style[0]}" class="btn" href="${url}" target="_blank" title="${new_download_url[i][2]}\n\n提示：如果不想要点击链接在前台打开空白新标签页（一闪而过影响体验），\n可以 [鼠标中键] 或 [Ctrl+鼠标左键] 点击加速链接即可在后台打开新标签页！" rel="noreferrer noopener nofollow">${new_download_url[i][1]}</a>`
                 }
                 _this.parentElement.nextElementSibling.insertAdjacentHTML('beforeend', _html + '</div>');
             });
@@ -313,7 +337,9 @@
                 url = new_download_url[i][0] + href
             }
             html_clone_a.href = url
-            html_clone_a.setAttribute('title', new_download_url[i][2].replaceAll('&#10;','\n'))
+            html_clone_a.setAttribute('title', new_download_url[i][2].replaceAll('&#10;','\n') + '\n\n提示：如果不想要点击链接在前台打开空白新标签页（一闪而过影响体验），\n可以 [鼠标中键] 或 [Ctrl+鼠标左键] 点击加速链接即可在后台打开新标签页！');
+            html_clone_a.setAttribute('target', '_blank');
+            html_clone_a.setAttribute('rel', 'noreferrer noopener nofollow');
             html_clone_span.textContent = 'Download ZIP ' + new_download_url[i][1]
             _html += html_clone.outerHTML
         }
@@ -396,7 +422,7 @@
             } else {
                 url = raw_url[i][0] + href2;
             }
-            _html += `<a href="${url}" title="${raw_url[i][2]}" target="_blank" role="button" rel="noreferrer noopener nofollow" data-size="small" data-variant="default" class="${html.className} XIU2-RF" style="border-radius: 0;margin-left: -1px;">${raw_url[i][1].replace(/ \d/,'')}</a>`
+            _html += `<a href="${url}" title="${raw_url[i][2]}\n\n提示：如果想要直接下载，可使用 [Alt + 左键] 点击加速按钮或 [右键 - 另存为...]" target="_blank" role="button" rel="noreferrer noopener nofollow" data-size="small" data-variant="default" class="${html.className} XIU2-RF" style="border-radius: 0;margin-left: -1px;">${raw_url[i][1].replace(/ \d/,'')}</a>`
         }
         if (document.querySelector('.XIU2-RF')) document.querySelectorAll('.XIU2-RF').forEach((e)=>{e.remove()})
         html.insertAdjacentHTML('afterend', _html);
@@ -441,7 +467,7 @@
                 url = raw_url[menu_rawFast][0] + href2;
             }
 
-            fileElm.insertAdjacentHTML('afterend', `<a href="${url}" download="${Name}" target="_blank" rel="noreferrer noopener nofollow" class="fileDownLink" style="display: none;" title="「${raw_url[menu_rawFast][1]}」&#10;&#10;[Alt + 左键] 或 [右键 - 另存为...] 下载文件。&#10;注意：鼠标点击 [☁] 图标，而不是左侧的文件名！&#10;&#10;${raw_url[menu_rawFast][2]}&#10;&#10;提示：点击浏览器右上角 Tampermonkey 扩展图标 - [ ${raw_url[menu_rawFast][1]} ] 加速源 (☁) 即可切换。">${svg[0]}</a>`);
+            fileElm.insertAdjacentHTML('afterend', `<a href="${url}" download="${Name}" target="_blank" rel="noreferrer noopener nofollow" class="fileDownLink" style="display: none;" title="「${raw_url[menu_rawFast][1]}」&#10;&#10;[Alt + 左键点击] 或 [右键 - 另存为...] 下载文件。&#10;注意：鼠标点击 [☁] 图标，而不是左侧的文件名！&#10;&#10;${raw_url[menu_rawFast][2]}&#10;&#10;提示：点击浏览器右上角 Tampermonkey 扩展图标 - [ ${raw_url[menu_rawFast][1]} ] 加速源 (☁) 即可切换。">${svg[0]}</a>`);
             // 绑定鼠标事件
             trElm.onmouseover = mouseOverHandler;
             trElm.onmouseout = mouseOutHandler;
