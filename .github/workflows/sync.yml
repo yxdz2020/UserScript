@@ -3,7 +3,7 @@ name: RepoSync
 on:
   schedule:
     - cron: "0 0 * * 1"  # 每周一 0 点运行
-  workflow_dispatch:  # 手动触发工作流
+  workflow_dispatch:    # 手动触发工作流
 
 jobs:
   sync_latest_from_upstream:
@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.repository.fork }}  # 仅在 fork 仓库中运行
     env:
-      UPSTREAM_REPO: XIU2/UserScript  # 在这里定义上游仓库，格式为“用户名/仓库名”
-      UPSTREAM_REPO_BRANCH: master  # 定义上游仓库的分支
-      TARGET_REPO_BRANCH: master  # 定义目标仓库的分支
+      UPSTREAM_REPO: XIU2/UserScript      # 在这里定义上游仓库，格式为“用户名/仓库名”
+      UPSTREAM_REPO_BRANCH: master       # 定义上游仓库的分支
+      TARGET_REPO_BRANCH: master         # 定义目标仓库的分支
 
     steps:
       # 检出当前仓库代码
@@ -31,7 +31,7 @@ jobs:
           test_mode: false # 关闭测试模式，实际执行同步操作
         continue-on-error: true # 即使同步失败，继续执行后续步骤
 
-      # 输出同步结果
+      # 输出同步结果 (已修复)
       - name: 输出同步结果
         run: |
           if [ "${{ steps.sync.outputs.changes_pushed }}" = "true" ]; then
@@ -39,9 +39,11 @@ jobs:
           elif [ "${{ steps.sync.outputs.changes_pushed }}" = "false" ]; then
             echo "⚠️ 无需同步：没有检测到需要同步的更改。"
           else
-            echo "❌ 同步失败：${{ steps.sync.outputs.error_message:-同步过程中出现了问题。}}"
+            error_message="${{ steps.sync.outputs.error_message }}"
+            echo "❌ 同步失败：${error_message:-同步过程中出现了问题。}"
           fi
 
+      # 删除旧的工作流运行记录
       - name: 🎉 Delete old workflow run
         uses: yxdz2020/delete-workflow-runs@v20250609
         with:
@@ -50,6 +52,7 @@ jobs:
           retain_days: 0
           keep_minimum_runs: 50
 
+      # 通过创建空提交来保持 Action 活跃
       - name: 🚗 Keep Running
         if: github.event_name == 'schedule'
         run: |
