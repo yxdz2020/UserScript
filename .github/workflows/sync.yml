@@ -43,7 +43,7 @@ jobs:
           fi
 
       - name: 🎉 Delete old workflow run
-        uses: yxdz2020/delete-workflow-runs@v20250101
+        uses: yxdz2020/delete-workflow-runs@v20250609
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
@@ -59,4 +59,3 @@ jobs:
           git pull --rebase --autostash
           git commit --allow-empty -m "Keep Running..."
           git push
-          
