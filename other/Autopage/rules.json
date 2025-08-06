@@ -2948,7 +2948,7 @@
 		}
 	},
 	"字幕库 zmk": {
-		"host": ["zmk.pw","zimuku.org","zimuku.pw"],
+		"host": ["srtku.com","zmk.pw","zimuku.org","zimuku.pw"],
 		"url": "if (!fun.indexOF('/detail/') && !fun.indexOF('/subs/')) {if (fun.lp() == '/') {fun.getCSS('.box>.table').insertAdjacentHTML('beforebegin','<div class=\"pagination\"></div>')}; return true;}",
 		"pager": {
 			"nextL": "a.next",
@@ -5985,6 +5985,16 @@
 		},
 		"function": {
 			"bF": "return fun.src_bF(pageE)"
+		}
+	},
+	"JAV吧 JAV8": {
+		"host": ["jav98.xyz","/^jav8\\.[a-z]+$/"],
+		"url": "return fun.isPager()",
+		"blank": 3,
+		"pager": {
+			"nextL": ".pagination-next",
+			"pageE": "a.work",
+			"replaceE": ".pagination"
 		}
 	},
 	"JieAV": {
