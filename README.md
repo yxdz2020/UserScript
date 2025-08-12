@@ -15,7 +15,7 @@
 
 ## 脚本列表
 
-> _详细的**脚本介绍、使用说明、截图演示**等信息，请点击 **\[安装\]** 前往 GreasyFork 查看~_  
+> _详细的**脚本介绍、使用说明、截图演示**等信息，请点击 **`[安装]`** 查看~（或去本项目 [Wiki](https://github.com/XIU2/UserScript/wiki) 查看_  
 
 |  | 脚本名称 | 脚本功能 | 安装 \| 备用 |
 | :----: | :---- | :---- | :----: |
@@ -33,7 +33,7 @@
 | [<img src="https://www.52pojie.cn/favicon.ico" height="16px" />](https://www.52pojie.cn) | **吾爱破解论坛 美化** | 精简多余内容、样式优化 | **[安装](https://greasyfork.org/zh-CN/scripts/412681)** \| **[备用](https://bitbucket.org/xiu2/userscript/raw/master/52pojie-Beautification.user.js)** |
 | [<img src="https://www.52pojie.cn/favicon.ico" height="16px" />](https://www.52pojie.cn) | **吾爱破解论坛 增强** | **自动签到**、自动无缝翻页、屏蔽导读悬赏贴 (最新发表页)... | **[安装](https://greasyfork.org/zh-CN/scripts/412680)** \| **[备用](https://bitbucket.org/xiu2/userscript/raw/master/52pojie-Enhanced.user.js)** |
 | [<img src="https://i.loli.net/2021/03/30/tvOSNCmi4rIH3Ju.png" height="16px" />](https://hostloc.com) | **全球主机交流论坛 增强 \*** | **自动访问空间(22积分)、屏蔽用户**、屏蔽关键词、自动翻... | **[安装](https://greasyfork.org/zh-CN/scripts/414005)** \| **[备用](https://bitbucket.org/xiu2/userscript/raw/master/Hostloc-Enhanced.user.js)** |
-| [<img src="https://store.steampowered.com/favicon.ico" height="16px" />](https://store.steampowered.com) | **Steam 创意工坊大图 修复** | 修复 Steam 创意工坊预览大图无法显示的问题 | **[安装](https://bitbucket.org/xiu2/userscript/raw/master/SteamWorkshopImageRepair.user.js)** \| **[备用](https://bitbucket.org/xiu2/userscript/raw/master/SteamWorkshopImageRepair.user.js)** |
+| [<img src="https://store.steampowered.com/favicon.ico" height="16px" />](https://store.steampowered.com) | **Steam 创意工坊大图 修复** | 修复 Steam 创意工坊预览大图无法显示的问题 | **[安装](https://github.com/XIU2/UserScript/wiki/Steam-%E5%88%9B%E6%84%8F%E5%B7%A5%E5%9D%8A%E5%A4%A7%E5%9B%BE-%E4%BF%AE%E5%A4%8D)** \| **[备用](https://bitbucket.org/xiu2/userscript/raw/master/SteamWorkshopImageRepair.user.js)** |
 | [<img src="https://avatars.githubusercontent.com/u/54703944?s=16&v=4" height="16px" />](https://github.com/XIU2) | **HTML5 视频音频默认音量** | 避免被 100% 音量**吓一跳**！且支持各网站分别记住音量... | **[安装](https://greasyfork.org/zh-CN/scripts/438400)** \| **[备用](https://bitbucket.org/xiu2/userscript/raw/master/HTML5Volume.user.js)** |
 | [<img src="https://avatars.githubusercontent.com/u/54703944?s=16&v=4" height="16px" />](https://github.com/XIU2) | **右键滚动条回到顶部** | 鼠标**右键**网页右侧的**滚动条**即可**回到顶部** | **[安装](https://greasyfork.org/zh-CN/scripts/506959)** \| **[备用](https://bitbucket.org/xiu2/userscript/raw/master/RightClick_ScrollBar_BackToTop.user.js)** |
 | [<img src="https://avatars.githubusercontent.com/u/54703944?s=16&v=4" height="16px" />](https://github.com/XIU2) | **新标签页打开链接 \*** | 将网页中所有链接改为**新标签页打开**（可能存在兼容问题 | **[安装](https://greasyfork.org/zh-CN/scripts/429714)** \| **[备用](https://bitbucket.org/xiu2/userscript/raw/master/TargetBlank.user.js)** |
@@ -49,10 +49,10 @@
 
 ## 如何安装/使用脚本？
 
-要使用任何脚本，首先需要浏览器安装 **Tampermonkey  脚本管理器扩展（[Chrome](https://pan.lanpw.com/b073l8d1e)** / **[Firefox](https://addons.mozilla.org/firefox/addon/tampermonkey/)** / **[Edge](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd?hl=zh-CN)）。**  
+要使用任何脚本，首先需要浏览器安装 **Tampermonkey  脚本管理器扩展（[Chrome](https://xiu.lanzoub.com/b073l8d1e)** / **[Firefox](https://addons.mozilla.org/firefox/addon/tampermonkey/)** / **[Edge](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd?hl=zh-CN)）。**  
 
-- 点击表格 **\[安装\]** 进入 GreasyFork 网页，点击 **\[安装脚本\]** 后弹出扩展提示，再点击 **\[安装\]** 即可。  
-- 如果 GreasyFork 访问速度太慢，可以选择点击 **\[备用\]** 后弹出扩展提示，再去点击 **\[安装\]** 即可。
+- 点击表格 **`[安装]`** 进入脚本介绍页，点击 **`[安装此脚本]`** 后弹出扩展提示，再点击 **`[安装]`** 即可。  
+- 如果 GreasyFork 访问速度太慢，可以选择点击 **`[备用]`** 后弹出扩展提示，再去点击 **`[安装]`** 即可。
 
 > [!IMPORTANT]
 > - _其他基于 **Chromium** 内核的浏览器（如国内套皮浏览器）一般都可以使用 Chrome 扩展。_  
@@ -93,9 +93,6 @@ Tampermonkey 为了顺应 Chrome 的 Manifest V3 要求，在 v5.0.0 版本中�
 ## Sponsor
 
 <a href="https://dartnode.com" title="Powered by DartNode - Free VPS for Open Source"><img src="https://dartnode.com/branding/DN-Open-Source-sm.png" alt="Powered by DartNode" width="40%"></a>
-
-> 该赞助者向本项目提供了**公益服务器**用以优化体验！  
-> This sponsor has provided **a non-profit server** for this project to enhance the user experience!
 
 ## License
 
