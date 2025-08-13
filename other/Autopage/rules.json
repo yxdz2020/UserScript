@@ -5606,6 +5606,16 @@
 			"replaceE": ".pagination"
 		}
 	},
+	"中国科普博览 - 科学大院": {
+		"host": "www.kepu.net.cn",
+		"url": "/^\\/dayuan\\//",
+		"pager": {
+			"type": 6,
+			"nextL": ".text_align_center.mt50>span+a",
+			"pageE": ".dy>li",
+			"replaceE": ".text_align_center.mt50"
+		}
+	},
 	"学佛网": {
 		"host": "www.xuefo.tw",
 		"pager": {
@@ -7322,6 +7332,19 @@
 			"nextL": "id('d_list_page')/a[text()='下一页'] | //table//a[text()='下一页']",
 			"pageE": "#d_list>ul,table.dc_bar2",
 			"replaceE": "#d_list_page,#d_list_foot,table.dc_bar"
+		}
+	},
+	"Theav": {
+		"host": ["theavporn.com","the01.fun","/^theav\\d{3}\\.com/","/^thepa\\d{2}\\.xyz$/","/^tav\\d{3}\\.xyz$/"],
+		"url": "return fun.isPager()",
+		"blank": 3,
+		"pager": {
+			"nextL": ".pagination>.item.active+div[class=item]>a",
+			"pageE": ".thumbs>.thumb",
+			"replaceE": ".pagination"
+		},
+		"function": {
+			"bF": "return fun.src_bF(pageE)"
 		}
 	},
 	"taotuxp.com": {
