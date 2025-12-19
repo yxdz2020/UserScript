@@ -2,14 +2,13 @@ name: RepoSync
 
 on:
   schedule:
-    - cron: "0 */3 * * *"  # 每周一 0 点运行
+    - cron: "0 1 * * *"  # 每天 9 点运行
   workflow_dispatch:    # 手动触发工作流
 
 jobs:
   sync_latest_from_upstream:
     name: 自动同步上游仓库
     runs-on: ubuntu-latest
-    if: ${{ github.event.repository.fork }}  # 仅在 fork 仓库中运行
     env:
       UPSTREAM_REPO: XIU2/UserScript      # 在这里定义上游仓库，格式为“用户名/仓库名”
       UPSTREAM_REPO_BRANCH: master       # 定义上游仓库的分支
@@ -31,7 +30,7 @@ jobs:
           test_mode: false # 关闭测试模式，实际执行同步操作
         continue-on-error: true # 即使同步失败，继续执行后续步骤
 
-      # 输出同步结果 (已修复)
+      # 输出同步结果
       - name: 输出同步结果
         run: |
           if [ "${{ steps.sync.outputs.changes_pushed }}" = "true" ]; then
@@ -45,12 +44,12 @@ jobs:
 
       # 删除旧的工作流运行记录
       - name: 🎉 Delete old workflow run
-        uses: yxdz2020/delete-workflow-runs@v20250609
+        uses: yxdz2020/delete-workflow-runs@v20251112
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
           retain_days: 0
-          keep_minimum_runs: 50
+          keep_minimum_runs: 10
 
       # 通过创建空提交来保持 Action 活跃
       - name: 🚗 Keep Running
