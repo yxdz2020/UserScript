@@ -643,20 +643,11 @@
 	},
 	"番组计划": {
 		"host": ["bgm.tv","bangumi.tv","chii.in"],
-		"url": "return (fun.indexOF(/\\/(browser|subject_search|tag|wish)/) || fun.isPager())",
+		"url": "return (fun.indexOF(/\\/(browser|subject_search|tag|wish|forum|comments)/) || fun.isPager())",
 		"blank": 3,
 		"pager": {
 			"nextL": "//div[@class='page_inner']/a[text()='››']",
-			"pageE": "ul#browserItemList>li",
-			"replaceE": ".page_inner"
-		}
-	},
-	"番组计划 - 小组帖子列表": {
-		"host": ["bgm.tv","bangumi.tv","chii.in"],
-		"url": "/\\/forum/",
-		"pager": {
-			"nextL": "//div[@class='page_inner']/a[text()='››']",
-			"pageE": ".topic_list>tbody:last-of-type>tr.topic",
+			"pageE": "ul#browserItemList>li,.topic_list>tbody:last-of-type>tr.topic,#comment_box>.item",
 			"replaceE": ".page_inner"
 		}
 	},
@@ -2176,8 +2167,8 @@
 			"replaceE": ".post-pagination"
 		}
 	},
-	"RuTracker - 帖子列表": {
-		"host": ["rutracker.org","rutracker.net"],
+	"RuTracker / Pornolab - 帖子列表": {
+		"host": ["rutracker.org","rutracker.net","pornolab.net"],
 		"url": "/(viewforum|tracker)\\.php/",
 		"blank": 4,
 		"pager": {
@@ -2186,8 +2177,8 @@
 			"replaceE": "#pagination,.bottom_info>.nav"
 		}
 	},
-	"RuTracker - 帖子内": {
-		"host": ["rutracker.org","rutracker.net"],
+	"RuTracker / Pornolab - 帖子内": {
+		"host": ["rutracker.org","rutracker.net","pornolab.net"],
 		"url": "/viewtopic\\.php/",
 		"thread": true,
 		"pager": {
@@ -5991,6 +5982,17 @@
 			"nextL": "//div[@class='pages']/a[text()='下一頁']",
 			"pageE": "#main>.t.t2,#main>a[name],#main>form>.t.t2,#main>form>a[name],#main>div[style*='overflow:hidden'],#main>.line",
 			"replaceE": ".pages"
+		}
+	},
+	"肉视频": {
+		"host": ["rou.video","rouva2.xyz"],
+		"url": "/^\\/(t\\/|(v|search)($|\\?))/",
+		"style": ".grid>div[data-slot=card]+div:not([data-slot=card])",
+		"blank": 3,
+		"pager": {
+			"nextL": "a[aria-current=page]+a",
+			"pageE": ".grid>div[data-slot=card]",
+			"replaceE": "//nav[@aria-label='Pagination']/../.."
 		}
 	},
 	"Latino Hentai": {
