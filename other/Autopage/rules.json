@@ -5996,6 +5996,15 @@
 			"replaceE": ".pages"
 		}
 	},
+	"M系镜像": {
+		"host": "mirror.chromaso.net",
+		"url": "if(fun.indexOF(/^\\/thread\\/.+/)){rule.thread=true;rule.pager.pageE='.container>.mm-post';return true;}else if(fun.indexOF(/^\\/(forum|search)\\/.+/)){rule.blank=3;return true;}",
+		"pager": {
+			"nextL": ".pagination>.active+li>a",
+			"pageE": "#thread-table-main>tbody>tr",
+			"replaceE": ".pagination"
+		}
+	},
 	"肉视频": {
 		"host": ["rou.video","rouva2.xyz"],
 		"url": "/^\\/(t\\/|(v|search)($|\\?))/",
@@ -6908,7 +6917,7 @@
 		"style": ".quickGuide,.outer-banner,.item[class*=exoclick],.item[class=item],.photos>div,.media,.static-container-4,.static-container-5,.recommendation_widget",
 		"pager": {
 			"type": 3,
-			"nextL": "a.pager-next",
+			"nextL": "a.next",
 			"pageE": ".videos>div.item:not([class*=exoclick]):not([class=item]), .videos>.video, .list>div.item:not([class*=exoclick]):not([class=item]), .photos>a, .fiction-body>.content>p, .fiction-body>.content>.chapters, .lists>a, .comic>div:not([class])",
 			"replaceE": ".pager,.prevNext",
 			"scrollE": ".pager+div+.pager,.prevNext",
