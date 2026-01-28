@@ -1,0 +1,39 @@
+name: Upstream Sync
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # every day
+  workflow_dispatch:
+
+jobs:
+  sync_latest_from_upstream:
+    name: Sync latest commits from upstream repo
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: run a standard checkout action
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+      
+      # Step 2: run the sync action
+      - name: Sync upstream changes
+        uses: yxdz2020/Fork-Sync-With-Upstream-action@v20260128
+        with:
+          upstream_sync_repo: XIU2/UserScript
+          upstream_sync_branch: master
+          target_sync_branch: master
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }} # automatically generated, no need to set
+          
+          # Set test_mode true to run tests instead of the true action!!
+          test_mode: false
+      
+      - name: Delete workflow runs
+        uses: yxdz2020/delete-workflow-runs@v20260116
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 11
