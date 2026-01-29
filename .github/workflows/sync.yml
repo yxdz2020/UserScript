@@ -1,8 +1,5 @@
 name: Upstream Sync
 
-permissions:
-  contents: write
-
 on:
   schedule:
     - cron: "0 0 * * *" # every day
@@ -36,4 +33,4 @@ jobs:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
           retain_days: 0
-          keep_minimum_runs: 11
+          keep_minimum_runs: 10
